@@ -45,24 +45,6 @@ variable "service_endpoints" {
   description = "The service endpoints to associate with the subnet"
   type        = list(string)
   default     = []
-
-  validation {
-    condition = alltrue([
-      for endpoint in var.service_endpoints : contains([
-        "Microsoft.AzureActiveDirectory",
-        "Microsoft.AzureCosmosDB",
-        "Microsoft.ContainerRegistry",
-        "Microsoft.EventHub",
-        "Microsoft.KeyVault",
-        "Microsoft.ServiceBus",
-        "Microsoft.Sql",
-        "Microsoft.Storage",
-        "Microsoft.Storage.Global",
-        "Microsoft.Web"
-      ], endpoint)
-    ])
-    error_message = "Each service endpoint must contain the following: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage, Microsoft.Storage.Global, Microsoft.Web."
-  }
 }
 
 variable "service_endpoint_policy_ids" {
