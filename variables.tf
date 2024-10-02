@@ -30,7 +30,7 @@ variable "private_endpoint_network_policies" {
   default     = "Enabled"
 
   validation {
-    condition     = contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.private_endpoint_network_policies)
+    condition     = var.private_endpoint_network_policies == null || contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.private_endpoint_network_policies)
     error_message = "Private endpoint network policices must be one of Disabled, Enabled, NetworkSecurityGroupEnabled, or RouteTableEnabled"
   }
 }
@@ -45,6 +45,24 @@ variable "service_endpoints" {
   description = "The service endpoints to associate with the subnet"
   type        = list(string)
   default     = []
+
+  validation {
+    condition = var.service_endpoints == null || alltrue([
+      for endpoint in var.service_endpoints : contains([
+        "Microsoft.AzureActiveDirectory",
+        "Microsoft.AzureCosmosDB",
+        "Microsoft.ContainerRegistry",
+        "Microsoft.EventHub",
+        "Microsoft.KeyVault",
+        "Microsoft.ServiceBus",
+        "Microsoft.Sql",
+        "Microsoft.Storage",
+        "Microsoft.Storage.Global",
+        "Microsoft.Web"
+      ], endpoint)
+    ])
+    error_message = "Service endpoints must contain: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage, Microsoft.Storage.Global, Microsoft.Web, or null"
+  }
 }
 
 variable "service_endpoint_policy_ids" {
