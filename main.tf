@@ -12,7 +12,7 @@ resource "azurerm_subnet" "snet" {
   service_endpoint_policy_ids = var.service_endpoint_policy_ids
 
   dynamic "delegation" {
-    for_each = var.delegation != {} ? [var.delegation] : []
+    for_each = var.delegation != null ? [var.delegation] : []
 
     content {
       name = delegation.value.name
