@@ -29,10 +29,10 @@ variable "private_endpoint_network_policies" {
   type        = string
   default     = "Enabled"
 
-  # validation {
-  #   condition     = contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.private_endpoint_network_policies)
-  #   error_message = "Private endpoint network policices must be one of Disabled, Enabled, NetworkSecurityGroupEnabled, or RouteTableEnabled"
-  # }
+  validation {
+    condition     = contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.private_endpoint_network_policies)
+    error_message = "Private endpoint network policices must be one of Disabled, Enabled, NetworkSecurityGroupEnabled, or RouteTableEnabled"
+  }
 }
 
 variable "private_link_service_network_policies_enabled" {
@@ -46,23 +46,23 @@ variable "service_endpoints" {
   type        = list(string)
   default     = []
 
-  # validation {
-  #   condition = alltrue([
-  #     for endpoint in var.service_endpoints : contains([
-  #       "Microsoft.AzureActiveDirectory",
-  #       "Microsoft.AzureCosmosDB",
-  #       "Microsoft.ContainerRegistry",
-  #       "Microsoft.EventHub",
-  #       "Microsoft.KeyVault",
-  #       "Microsoft.ServiceBus",
-  #       "Microsoft.Sql",
-  #       "Microsoft.Storage",
-  #       "Microsoft.Storage.Global",
-  #       "Microsoft.Web"
-  #     ], endpoint)
-  #   ])
-  #   error_message = "Each service endpoint must contain the following: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage, Microsoft.Storage.Global, Microsoft.Web."
-  # }
+  validation {
+    condition = alltrue([
+      for endpoint in var.service_endpoints : contains([
+        "Microsoft.AzureActiveDirectory",
+        "Microsoft.AzureCosmosDB",
+        "Microsoft.ContainerRegistry",
+        "Microsoft.EventHub",
+        "Microsoft.KeyVault",
+        "Microsoft.ServiceBus",
+        "Microsoft.Sql",
+        "Microsoft.Storage",
+        "Microsoft.Storage.Global",
+        "Microsoft.Web"
+      ], endpoint)
+    ])
+    error_message = "Each service endpoint must contain the following: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage, Microsoft.Storage.Global, Microsoft.Web."
+  }
 }
 
 variable "service_endpoint_policy_ids" {
