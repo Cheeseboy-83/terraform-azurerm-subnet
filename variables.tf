@@ -74,11 +74,11 @@ variable "service_endpoint_policy_ids" {
 variable "delegation" {
   description = "The delegations for the subnet"
   type = object({
-    name = string
-    service_delegation = object({
-      name    = string
-      actions = list(string)
-    })
+    name = optional(string)
+    service_delegation = optional(object({
+      name    = optional(string)
+      actions = optional(list(string))
+    }))
   })
   default = null
 }
