@@ -35,7 +35,7 @@ variable "private_endpoint_network_policies" {
   }
 }
 
-variable "private_link_service_network_policies" {
+variable "private_link_service_network_policies_enabled" {
   description = "The network policies for private link service on the subnet"
   type        = bool
   default     = true
