@@ -53,8 +53,8 @@ variable "delegation" {
   type = object({
     name = optional(string)
     service_delegation = optional(object({
-      name    = string
-      actions = list(string)
+      name    = optional(string)
+      actions = optional(list(string))
     }))
   })
   default = {}
