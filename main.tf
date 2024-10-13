@@ -17,9 +17,13 @@ resource "azurerm_subnet" "snet" {
     content {
       name = delegation.value.name
 
-      service_delegation {
-        name    = delegation.value.service_name
-        actions = delegation.value.service_actions
+      dynamic "service_delegation" {
+        for_each = delegation.value.service_delegation != null ? [delegation.value.service_delegation] : []
+
+        content {
+          name    = service_delegation.value.name
+          actions = service_delegation.value.actions
+        }
       }
     }
   }
